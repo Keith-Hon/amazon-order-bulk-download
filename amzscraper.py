@@ -17,6 +17,7 @@ from email.utils import COMMASPACE, formatdate
 from bs4 import BeautifulSoup
 from selenium.common.exceptions import NoSuchElementException
 
+from webdriver_manager.chrome import ChromeDriverManager
 
 def rand_sleep(max_seconds=5):
     """
@@ -38,7 +39,7 @@ class AmzChromeDriver(object):
     def __init__(self):
         from selenium import webdriver
 
-        self.driver = webdriver.Chrome("chromedriver")
+        self.driver = webdriver.Chrome(ChromeDriverManager().install())
         self.driver.implicitly_wait(5)
 
     def login(self, email, password):
@@ -129,17 +130,15 @@ class AmzScraper(object):
         self,
         year,
         user,
-        password,
-        dest_dir,
-        from_email,
-        to_email,
+        dest_dir,        
+        password,      
         brcls=AmzChromeDriver,
         emailer=None,
     ):
-        self.year = year
+        self.from_email = None
+        self.to_email = None
         self.orders_dir = dest_dir
-        self.from_email = from_email
-        self.to_email = to_email
+        self.year = year    
         self.emailer = emailer
         self.br = brcls()
         self.br.login(user, password)
@@ -221,64 +220,28 @@ def parse_args():
     parser.add_argument(
         "-u",
         "--user",
-        help="Amazon.com username (email).",
-        default=os.environ["AMAZON_USER"],
+        help="Amazon.com username (email)."       
     )
     parser.add_argument(
         "-p",
         "--password",
-        help="Amazon.com password.",
-        default=os.environ["AMAZON_PASSWORD"],
+        help="Amazon.com password."        
     )
     parser.add_argument(
-        "--smtp-user",
-        required=False,
-        help="SMTP username (optional).",
-        default=os.environ.get("SMTP_USER"),
-    )
-    parser.add_argument(
-        "--smtp-password",
-        required=False,
-        help="SMTP password (optional)",
-        default=os.environ.get("SMTP_PASSWORD"),
-    )
-    parser.add_argument(
-        "--smtp-host",
-        required=False,
-        help="SMTP host (optional)",
-        default=os.environ.get("SMTP_HOST"),
-    )
-    parser.add_argument(
-        "--smtp-port",
-        required=False,
-        help="SMTP port (optional)",
-        default=os.environ.get("SMTP_PORT"),
-    )
-    parser.add_argument(
-        "--from-email",
-        required=False,
-        help="From email (for sending emails).",
-        default=os.environ.get("FROM_EMAIL"),
-    )
-    parser.add_argument(
-        "--to-email",
-        required=False,
-        help="To email (for sending emails).",
-        default=os.environ.get("TO_EMAIL"),
-    )
-    parser.add_argument(
-        "--dest-dir",
-        required=False,
-        default="orders/",
-        help='Destination directory for scraped order PDFs. Defaults to "orders/"',
-    )
-    parser.add_argument(
-        "year",
+        "-y",
+        "--year",
         nargs="*",
         type=int,
         default=datetime.datetime.today().year,
         help="One or more years for which to retrieve orders. Will default to the "
         "current year if no year is specified.",
+    )
+    parser.add_argument(
+        "-d",
+        "--dest-dir",
+        required=False,
+        default="orders/",
+        help='Destination directory for scraped order PDFs. Defaults to "orders/"',
     )
     return parser.parse_args()
 
