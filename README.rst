@@ -2,7 +2,7 @@ Step (Windows):
 
 1. virtualenv env
 2. .\\env\\Scripts\\activate
-3. pip install git+https://github.com/tobiasmcnulty/amzscraper.git
+3. pip install git+https://github.com/Keith-Hon/amazon-order-bulk-download.git
 4. pip install webdriver_manager
 5. mkdir orders
 6. download wkhtmltopdf and add its executable to system's PATH
