@@ -1,7 +1,7 @@
 Step:
 
 1. virtualenv env
-2. .\env\Scripts\activate
+2. .\\env\\Scripts\\activate
 3. pip install git+https://github.com/tobiasmcnulty/amzscraper.git
 4. pip install webdriver_manager
 5. mkdir orders
