@@ -1,4 +1,4 @@
-Step:
+Step (Windows):
 
 1. virtualenv env
 2. .\\env\\Scripts\\activate
