@@ -6,4 +6,4 @@ Step:
 4. pip install webdriver_manager
 5. mkdir orders
 6. download wkhtmltopdf and add its executable to system's PATH
-7. python .\amzscraper.py -u "USERNAME" -p "PASSWORD" -y 2020 2021
+7. python .\\amzscraper.py -u "USERNAME" -p "PASSWORD" -y 2020 2021
